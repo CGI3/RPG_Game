@@ -21,7 +21,7 @@ pygame.display.set_caption('Life RPG')
 #Background Image
 #Do this outside game loop, otherwise it will happen in each iteration
 #This code doesn't load it into display, it just loads it into memory
-background_image = pygame.image.load('images/Background/forest_background_by_sendrawz_da57kln-fullview.jpg').convert_alpha()
+background_image = pygame.image.load('images/Background/thick_forest.jpg').convert_alpha()
 #Panel Image
 panel_image = pygame.image.load('images/Icons/panel.png').convert_alpha()
 
