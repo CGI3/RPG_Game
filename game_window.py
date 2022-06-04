@@ -37,6 +37,36 @@ def draw_panel():
     screen.blit(panel_image, (0, screen_height - bottom_panel))
 
 
+#Creating a player and enemies is easier using Classes
+#fighter class
+class Warrior():
+    #constructor
+    def __init__(self, x, y, name, max_hp, strength, potions):
+        self.name = name
+        self.max_hp = max_hp
+        self.hp = max_hp
+        self.strength = strength
+        self.start_potions = potions
+        self.potions = potions
+        self.alive = True
+        img = pygame.image.load(f'images/{self.name}/Idle/first.png')
+        self.image = pygame.transform.scale(img, (img.get_width() * 3, img.get_height() * 3))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+#Characters
+knight = Warrior(200, 260, 'Warrior', 30, 10, 3)
+thief1 = Warrior(580, 270, 'Thieves', 20, 6, 1)
+thief2 = Warrior(700, 270, 'Thieves', 20, 6, 1)
+
+thief_list = []
+thief_list.append(thief1)
+thief_list.append(thief2)
+
+
 # Loop to run the game display
 run = True
 while run:
@@ -49,6 +79,12 @@ while run:
 
     #Draw panel function
     draw_panel()
+
+    #Update (draw) characters
+    knight.draw()
+    for thief in thief_list:
+        thief.draw()
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
