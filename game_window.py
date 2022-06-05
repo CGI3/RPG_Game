@@ -39,7 +39,7 @@ def draw_panel():
 
 #Creating a player and enemies is easier using Classes
 #fighter class
-class Warrior():
+class Knight():
     #constructor
     def __init__(self, x, y, name, max_hp, strength, potions):
         self.name = name
@@ -49,18 +49,50 @@ class Warrior():
         self.start_potions = potions
         self.potions = potions
         self.alive = True
-        img = pygame.image.load(f'images/{self.name}/Idle/first.png')
-        self.image = pygame.transform.scale(img, (img.get_width() * 3, img.get_height() * 3))
+        self.animation_list = []
+        self.frame_index = 0
+        self.action = 0 #0:idle 1:attack, 2:hurt, 3:dead
+        self.update_time = pygame.time.get_ticks()
+        #Load Idle Images
+        temp_list = []
+        for i in range(8):
+            img = pygame.image.load(f'images/{self.name}/Idle/{i}.png')
+            img = pygame.transform.scale(img, (img.get_width() * 3, img.get_height() * 3))
+            temp_list.append(img)
+        self.animation_list.append(temp_list)
+        #Load  Attack Images
+        temp_list = []
+        for i in range(8):
+            img = pygame.image.load(f'images/{self.name}/Attack/{i}.png')
+            img = pygame.transform.scale(img, (img.get_width() * 3, img.get_height() * 3))
+            temp_list.append(img)
+        self.animation_list.append(temp_list)
+
+        self.image = self.animation_list[self.action][self.frame_index]
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
+
+
+    def update(self):
+        animation_cooldown = 100
+        #handles animation
+        #update image to latest, so its appropriate for animation
+        self.image = self.animation_list[self.action][self.frame_index]
+         #Check if enough time has passed since last update
+        if pygame.time.get_ticks() - self.update_time > animation_cooldown:
+            self.update_time = pygame.time.get_ticks()
+            self.frame_index += 1
+        #If the animation runs out, reset back to the start
+        if self.frame_index >= len(self.animation_list[self.action]):
+            self.frame_index = 0
 
     def draw(self):
         screen.blit(self.image, self.rect)
 
 #Characters
-knight = Warrior(200, 260, 'Warrior', 30, 10, 3)
-thief1 = Warrior(580, 270, 'Thieves', 20, 6, 1)
-thief2 = Warrior(700, 270, 'Thieves', 20, 6, 1)
+knight = Knight(200, 260, 'Knight', 30, 10, 3)
+thief1 = Knight(580, 270, 'Thieves', 20, 6, 1)
+thief2 = Knight(700, 270, 'Thieves', 20, 6, 1)
 
 thief_list = []
 thief_list.append(thief1)
@@ -81,8 +113,11 @@ while run:
     draw_panel()
 
     #Update (draw) characters
+    knight.update()
     knight.draw()
+
     for thief in thief_list:
+        thief.update()
         thief.draw()
 
 
