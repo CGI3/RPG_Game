@@ -16,6 +16,14 @@ screen_height = 400 + bottom_panel
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Life RPG')
 
+# Define fonts
+text_font = pygame.font.SysFont('Times New Roman', 26)
+
+# Define font colors
+red = (225, 0, 0)
+green = (0, 255, 0)
+
+
 #Loading Images into display
 
 #Background Image
@@ -25,6 +33,10 @@ background_image = pygame.image.load('images/Background/thick_forest.jpg').conve
 #Panel Image
 panel_image = pygame.image.load('images/Icons/panel.png').convert_alpha()
 
+#create function for drawing text
+def draw_text(text, font, text_color, x, y):
+    image = font.render(text, True, text_color)
+    screen.blit(image, (x, y))
 
 #Display the picture: function for drawing background
 def draw_background():
@@ -34,7 +46,14 @@ def draw_background():
 
 #Function for drawing the panel below the background display
 def draw_panel():
+    # Draw the rectangle panel beneath display
     screen.blit(panel_image, (0, screen_height - bottom_panel))
+    # Show the knights stats
+    draw_text(f'{knight.name} HP: {knight.hp}', text_font, red, 100, screen_height - bottom_panel + 10)
+
+    # Iterates through thief list to give stats
+    for count, i in enumerate(thief_list):
+        draw_text(f'{i.name} HP: {i.hp}', text_font, red, 550, (screen_height - bottom_panel + 10) + count + 60)
 
 
 #Creating a player and enemies is easier using Classes
@@ -91,8 +110,8 @@ class Knight():
 
 #Characters
 knight = Knight(200, 260, 'Knight', 30, 10, 3)
-thief1 = Knight(580, 270, 'Thieves', 20, 6, 1)
-thief2 = Knight(700, 270, 'Thieves', 20, 6, 1)
+thief1 = Knight(580, 270, 'Thief', 20, 6, 1)
+thief2 = Knight(700, 270, 'Thief', 20, 6, 1)
 
 thief_list = []
 thief_list.append(thief1)
