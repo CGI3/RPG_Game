@@ -53,7 +53,7 @@ def draw_panel():
 
     # Iterates through thief list to give stats
     for count, i in enumerate(thief_list):
-        draw_text(f'{i.name} HP: {i.hp}', text_font, red, 550, (screen_height - bottom_panel + 10) + count + 60)
+        draw_text(f'{i.name} HP: {i.hp}', text_font, red, 550, (screen_height - bottom_panel + 10) + count * 60)
 
 
 #Creating a player and enemies is easier using Classes
