@@ -108,6 +108,23 @@ class Knight():
     def draw(self):
         screen.blit(self.image, self.rect)
 
+class HealthBar():
+    def __init__(self, x, y, hp, max_hp):
+        self.x = x
+        self.y = y
+        self.hp = hp
+        self.max_hp = max_hp
+
+    def draw(self, hp):
+        #Update with new health
+        self.hp = hp
+
+        #calculate health ratio
+        ratio = self.hp / self.max_hp
+        pygame.draw.rect(screen, red, (self.x, self.y, 150, 20))
+        pygame.draw.rect(screen, green, (self.x, self.y, 150 * ratio, 20))
+
+
 #Characters
 knight = Knight(200, 260, 'Knight', 30, 10, 3)
 thief1 = Knight(580, 270, 'Thief', 20, 6, 1)
@@ -116,6 +133,10 @@ thief2 = Knight(700, 270, 'Thief', 20, 6, 1)
 thief_list = []
 thief_list.append(thief1)
 thief_list.append(thief2)
+
+knight_health_bar = HealthBar(100, screen_height - bottom_panel + 40, knight.hp, knight.max_hp)
+thief1_health_bar = HealthBar(550, screen_height - bottom_panel + 40, thief1.hp, thief1.max_hp)
+thief2_health_bar = HealthBar(550, screen_height - bottom_panel + 100, thief2.hp, thief2.max_hp)
 
 
 # Loop to run the game display
@@ -130,6 +151,9 @@ while run:
 
     #Draw panel function
     draw_panel()
+    knight_health_bar.draw(knight.hp)
+    thief1_health_bar.draw(thief1.hp)
+    thief2_health_bar.draw(thief2.hp)
 
     #Update (draw) characters
     knight.update()
