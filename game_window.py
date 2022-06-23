@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 
@@ -15,6 +16,15 @@ screen_height = 400 + bottom_panel
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Life RPG')
+
+#Define the game variables
+current_fighter = 1
+#Knight and 2 thieves
+total_fighters = 3
+#Don't want it to cycle through them all and go too quickly. Want there to be
+#time between the actions
+action_cooldown = 0
+action_wait_time = 90
 
 # Define fonts
 text_font = pygame.font.SysFont('Times New Roman', 26)
@@ -105,6 +115,12 @@ class Knight():
         if self.frame_index >= len(self.animation_list[self.action]):
             self.frame_index = 0
 
+    def attack(self, target):
+        #Deal damage to the opposing enemy
+        random_number = random.randint(-5, 5)
+        damage = self.strength + random_number
+        target.hp -= damage
+
     def draw(self):
         screen.blit(self.image, self.rect)
 
@@ -162,6 +178,17 @@ while run:
     for thief in thief_list:
         thief.update()
         thief.draw()
+
+    #Player action
+    if knight.alive:
+        if current_fighter == 1:
+            action_cooldown += 1
+            if action_cooldown >= action_wait_time:
+                #Look for player action
+                #Attack
+                knight.attack(thief1)
+                current_fighter += 1
+                action_cooldown
 
 
     for event in pygame.event.get():
