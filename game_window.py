@@ -113,13 +113,22 @@ class Knight():
             self.frame_index += 1
         #If the animation runs out, reset back to the start
         if self.frame_index >= len(self.animation_list[self.action]):
-            self.frame_index = 0
+            self.idle()
+
+    def idle(self):
+        self.action = 0
+        self.frame_index = 0
+        self.update_time = pygame.time.get_ticks()
 
     def attack(self, target):
         #Deal damage to the opposing enemy
         random_number = random.randint(-5, 5)
         damage = self.strength + random_number
         target.hp -= damage
+        #Set variables so that when attacking, the attack animation happens
+        self.action = 1
+        self.frame_index = 0
+        self.update_time = pygame.time.get_ticks()
 
     def draw(self):
         screen.blit(self.image, self.rect)
