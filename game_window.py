@@ -199,6 +199,18 @@ while run:
                 current_fighter += 1
                 action_cooldown
 
+    #Enemy action
+    for count, thief in enumerate(thief_list):
+        if current_fighter == 2 + count:
+            if thief.alive == True:
+                action_cooldown += 1
+                if action_cooldown >= action_wait_time:
+                    #Attack
+                    thief.attack(knight)
+                    current_fighter += 1
+                    action_cooldown = 0
+            else:
+                current_fighter += 1
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
