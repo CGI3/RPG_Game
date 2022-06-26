@@ -212,6 +212,11 @@ while run:
             else:
                 current_fighter += 1
 
+    #If all fighters have had a turn, then reset to current fighter
+    if current_fighter > total_fighters:
+        current_fighter = 1
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
