@@ -125,6 +125,11 @@ class Knight():
         random_number = random.randint(-5, 5)
         damage = self.strength + random_number
         target.hp -= damage
+        #Check if target has died
+        if target.hp < 1:
+            target.hp = 0
+            target.alive = False
+
         #Set variables so that when attacking, the attack animation happens
         self.action = 1
         self.frame_index = 0
@@ -197,7 +202,7 @@ while run:
                 #Attack
                 knight.attack(thief1)
                 current_fighter += 1
-                action_cooldown
+                action_cooldown = 0
 
     #Enemy action
     for count, thief in enumerate(thief_list):
