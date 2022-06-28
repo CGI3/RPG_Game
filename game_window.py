@@ -42,6 +42,8 @@ green = (0, 255, 0)
 background_image = pygame.image.load('images/Background/thick_forest.jpg').convert_alpha()
 #Panel Image
 panel_image = pygame.image.load('images/Icons/panel.png').convert_alpha()
+#Sword Image
+panel_image = pygame.image.load('images/Icons/sword.png').convert_alpha()
 
 #create function for drawing text
 def draw_text(text, font, text_color, x, y):
@@ -192,6 +194,12 @@ while run:
     for thief in thief_list:
         thief.update()
         thief.draw()
+
+    #Control Player Actions
+    #Reset action variables
+    attack = False
+    potion = False
+    target = None
 
     #Player action
     if knight.alive:
