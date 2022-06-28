@@ -25,6 +25,10 @@ total_fighters = 3
 #time between the actions
 action_cooldown = 0
 action_wait_time = 90
+attack = False
+potion = False
+clicked = False
+
 
 # Define fonts
 text_font = pygame.font.SysFont('Times New Roman', 26)
@@ -43,7 +47,7 @@ background_image = pygame.image.load('images/Background/thick_forest.jpg').conve
 #Panel Image
 panel_image = pygame.image.load('images/Icons/panel.png').convert_alpha()
 #Sword Image
-panel_image = pygame.image.load('images/Icons/sword.png').convert_alpha()
+sword_image = pygame.image.load('images/Icons/sword.png').convert_alpha()
 
 #create function for drawing text
 def draw_text(text, font, text_color, x, y):
@@ -200,6 +204,15 @@ while run:
     attack = False
     potion = False
     target = None
+    pygame.mouse.set_visible(True)
+    mouse_position = pygame.mouse.get_pos()
+    for count, thief in enumerate(thief_list):
+        if thief.rect.collidepoint(mouse_position):
+            #Hide Mouse
+            pygame.mouse.set_visible(False)
+            #Show Sword in place of mouse cursor
+            screen.blit(sword_image, mouse_position)
+    
 
     #Player action
     if knight.alive:
