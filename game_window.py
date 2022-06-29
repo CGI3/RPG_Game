@@ -206,12 +206,17 @@ while run:
     target = None
     pygame.mouse.set_visible(True)
     mouse_position = pygame.mouse.get_pos()
+    #Checks for each individual thief
     for count, thief in enumerate(thief_list):
+        #Mouse changes depending on if you're hovered over thief
         if thief.rect.collidepoint(mouse_position):
             #Hide Mouse
             pygame.mouse.set_visible(False)
             #Show Sword in place of mouse cursor
             screen.blit(sword_image, mouse_position)
+            if clicked == True:
+                attack = True
+                target = thief_list[count]
     
 
     #Player action
@@ -221,9 +226,10 @@ while run:
             if action_cooldown >= action_wait_time:
                 #Look for player action
                 #Attack
-                knight.attack(thief1)
-                current_fighter += 1
-                action_cooldown = 0
+                if attack == True and target != None:
+                    knight.attack(target)
+                    current_fighter += 1
+                    action_cooldown = 0
 
     #Enemy action
     for count, thief in enumerate(thief_list):
@@ -246,6 +252,12 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        #If mouse is being clicked
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            clicked = True
+        else:
+            clicked = False
+
 
     #This code is going to be running a bunch of functions in the while loop. This .update() command
     #is used so that your display updates with that functions code
